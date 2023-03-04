@@ -1,0 +1,79 @@
+version: "3"
+
+services:
+#--------------------------------------------------------------------------#
+#--------------------------------------------------------------------------#
+#                     C O D E I G N I T E R  v4.2.3                        #
+#--------------------------------------------------------------------------#
+#--------------------------------------------------------------------------#
+    codeigniter4:
+        #image: atsanna/codeigniter4:latest
+#        image: atsanna/codeigniter4:v4.2.3-php8.1-apache
+#        image: atsanna/codeigniter4:v4.2.3-php8.1.9-apache
+#        image: atsanna/codeigniter4:v4.2.3-php8.0-apache
+#        image: atsanna/codeigniter4:v4.2.3-php8.0.20-apache
+#        image: atsanna/codeigniter4:v4.2.3-php7.4-apache
+        image: atsanna/codeigniter4:v4.2.3-php7.4.30-apache
+        container_name: 'codeigniter4'
+        environment:
+          - REGEN_ENV_FILE=1
+
+          - CI_ENVIRONMENT=development
+          - APP_BASE_URL=http://localhost/
+          - DB_DEFAULT_HOSTNAME=127.0.0.1
+          - DB_DEFAULT_DATABASE=idusapi
+          - DB_DEFAULT_USERNAME=idusapi
+          - DB_DEFAULT_PASSWORD=idusapi
+          - DB_DEFAULT_DRIVER=MySQLi
+          - DB_DEFAULT_PORT=3306
+
+          - ROOT_EMAIL=
+          - MAIL_SERVER=
+          - MAIL_SERVER_PORT=
+          - MAIL_SERVER_USER=
+          - MAIL_SERVER_PASSWORD=
+          - MAIL_SERVER_TLS=
+          - MAIL_SERVER_STARTTLS=
+        ports:
+          - 80:80
+        links:
+          - codeigniter4_mysql
+        volumes:
+          - ./localfolder/www:/var/www/html
+
+#--------------------------------------------------------------------------#
+#--------------------------------------------------------------------------#
+#                               M Y S Q L                                  #
+#--------------------------------------------------------------------------#
+#--------------------------------------------------------------------------#               
+    codeigniter4_mysql:
+        image: mariadb:10.5.5
+        container_name: 'codeigniter4_mysql'
+        ports:
+          - 3306:3306
+        volumes:
+          - ./localfolder/mysql:/var/lib/mysql
+          - ./localfolder/logs/mysql:/var/log/mysql
+        environment:
+          MYSQL_ROOT_PASSWORD: idusapi
+          MYSQL_DATABASE: idusapi
+          MYSQL_USER: idusapi
+          MYSQL_PASSWORD: idusapi
+
+#--------------------------------------------------------------------------#
+#--------------------------------------------------------------------------#
+#                         P H P M Y A D M I N                              #
+#--------------------------------------------------------------------------#
+#--------------------------------------------------------------------------#             
+    codeigniter4_phpmyadmin:
+        image: phpmyadmin/phpmyadmin:5.0.2
+        container_name: 'codeigniter4_phpmyadmin'
+        links:
+          - codeigniter4_mysql
+        environment:
+          PMA_HOST: codeigniter4_mysql
+          PMA_PORT: 3306
+        ports:
+          - 81:80
+        volumes:
+          - ./localfolder/sessions:/sessions
