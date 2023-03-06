@@ -23,13 +23,13 @@ if(!function_exists('join_validation'))
                 if(!preg_match(${$k."Pattern"}, $v)) {
                     $return_array = error_return("join", $k);
                     return $return_array; // 곧바로 종료 시킴
-                } else {
-                    $return_array["result"]     = "success";
-                    $return_array["code"]       = "1000";
-                    $return_array["msg"]        = "정상";
                 }
             }
         }
+        
+        $return_array["result"]     = "success";
+        $return_array["code"]       = "1000";
+        $return_array["msg"]        = "정상";
 
         return $return_array;
     }
