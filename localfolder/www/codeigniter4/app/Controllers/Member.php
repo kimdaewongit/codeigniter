@@ -140,6 +140,21 @@ class Member extends BaseController
         // 세션.. 종료..
         $session = session();
         $session->destroy();
+        
+        // 로그인을 관리하는 방식에 따라 로그아웃에 따른 로직 작성
+        // ex) 세션 삭제, oAuth 같은 경우 로그아웃 API 호출 등등
+        
+        // if(로그아웃 처리 로직 성공 결과에 따른 분기 처리)
+        // $return_array = error_return("logout", "fail1");
+        // echo return_json($return_array);
+        // exit;
+        
+        // else 로그아웃 로직 처리가 성공한 경우
+        $return_array["result"]     = "success";
+        $return_array["code"]       = "6000";
+        $return_array["msg"]        = "로그아웃에 성공 했습니다.";
+        echo return_json($return_array);
+        exit;
     }
     
     /**
