@@ -112,6 +112,10 @@ if(!function_exists('return_code'))
                 $error_array["code"]   = "5001";
                 $error_array["msg"]    = "회원 데이터가 존재하지 않습니다.";
             break;
+            case "logout_fail1" :
+                $error_array["code"]   = "6001";
+                $error_array["msg"]    = "로그아웃에 실패 했습니다.";
+            break;
         }
         return $error_array;
     }
