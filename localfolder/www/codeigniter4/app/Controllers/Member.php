@@ -21,7 +21,7 @@ class Member extends BaseController
         $email      = $this->request->getPost("email");
         $gender     = $this->request->getPost("gender");
 
-        $exception_array = array();
+        $exception_array = [];
 
         // gender 의 경우 전달 받은 값이 없을 때만 join_validation 예외 처리 해준다.
         if(empty($gender)) {
