@@ -273,7 +273,7 @@ class Member extends BaseController
         $memberModel = new Model\MemberModel();
 
         // 현재 page (pagenation), 목록수, search string을 토대로 조회 구문 작성
-        $search_result = $memberModel->member_search($page, $list_row, $search_txt);
+        $search_result = $memberModel->member_list($page, $list_row, $search_txt);
 
         // 고객 조회 결과가 없는 경우 error return
         if(empty($search_result)) {

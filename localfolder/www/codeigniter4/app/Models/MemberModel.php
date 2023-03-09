@@ -25,7 +25,13 @@ Class MemberModel extends Model
         return $result;
     }
 
-    public function member_search($page, $list_row, $search_txt)
+    public function member_search($where_array)
+    {
+        $query = $this->where($where_array)->findAll();
+        return $query;
+    }
+
+    public function member_list($page, $list_row, $search_txt)
     {    
         $sql = "SELECT  idx, name, nickname, hp_no, email, gender,
                         (SELECT order_no 
