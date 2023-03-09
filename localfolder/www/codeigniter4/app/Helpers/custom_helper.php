@@ -6,14 +6,14 @@ if(!function_exists('join_validation'))
     function join_validation($data_array, $exception_array)
     {
         //각 데이터에 대한 체크 패턴
-        $namePattern = '/^[가-힣a-zA-Z]+$/';
-        $nicknamePattern = '/^[a-z]+$/';
-        $passwordPattern = '/^.*(?=^.{10,20}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/';
-        $hp_noPattern = '/^[0-9]+$/';
-        $emailPattern = '/^[_\.0-9a-zA-Z-]+@([0-9a-zA-Z][0-9a-zA-Z-]+\.)+[a-zA-Z]{2,6}$/i';
-        $genderPattern = '/^[1-2]{1}$/';
+        $namePattern        = '/^[가-힣a-zA-Z]+$/';
+        $nicknamePattern    = '/^[a-z]+$/';
+        $passwordPattern    = '/^.*(?=^.{10,20}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/';
+        $hp_noPattern       = '/^[0-9]+$/';
+        $emailPattern       = '/^[_\.0-9a-zA-Z-]+@([0-9a-zA-Z][0-9a-zA-Z-]+\.)+[a-zA-Z]{2,6}$/i';
+        $genderPattern      = '/^[1-2]{1}$/';
 
-        $return_array = array();
+        $return_array = [];
 
         foreach($data_array as $k => $v)
         {
@@ -41,7 +41,7 @@ if(!function_exists('return_code'))
     function error_return($action, $key)
     {
 
-        $error_array = array();
+        $error_array = [];
 
         $error_array["result"]  = "fail";
 
