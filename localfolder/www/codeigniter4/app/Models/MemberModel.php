@@ -42,7 +42,7 @@ Class MemberModel extends Model
                 FROM member_info AS a ";
         if(!empty($search_txt)) {
             $sql .= " WHERE (name LIKE '%".$this->escapeLikeString($search_txt)."%' ESCAPE '!' || email LIKE '%".$this->escapeLikeString($search_txt)."%' ESCAPE '!') ";
-        }
+        } // or 보다는.. ?? 로 했어야 이게 뭔지를 찾아야 함
         $sql .= "LIMIT ".($page*$list_row).", ".$list_row;
 
         $query = $this->query($sql);

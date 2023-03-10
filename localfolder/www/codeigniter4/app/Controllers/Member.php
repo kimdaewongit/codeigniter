@@ -4,16 +4,13 @@ use App\Models as Model;
 class Member extends BaseController
 {
 
-    protected $memberModel;
-    protected $orderModel;
+    protected $helpers = ['custom_helper'];
 
     /**
      * 회원 가입
      */
     public function member_join()
     { 
-        helper('custom_helper');
-
         $name       = $this->request->getPost("name");
         $nickname   = $this->request->getPost("nickname");
         $password   = $this->request->getPost("password");
@@ -34,7 +31,7 @@ class Member extends BaseController
         // 검증 과정에서 문제가 확인 된 경우 error return
         if($validation["result"] == "fail") {
             echo return_json($validation);
-            exit;
+            return;
         } else {
             $memberModel = new Model\MemberModel();
 
@@ -49,7 +46,7 @@ class Member extends BaseController
             if(!empty($search_result)) {
                 $return_array = error_return("join", "fail1");
                 echo return_json($return_array);
-                exit;
+                return;
             } else {
                 $insert_array = [
                     "name"              => $name,
@@ -80,8 +77,6 @@ class Member extends BaseController
      */
     public function member_login() 
     {
-        helper('custom_helper');
-
         $name       = $this->request->getPost("name");
         $password   = $this->request->getPost("password");
 
@@ -89,7 +84,7 @@ class Member extends BaseController
         if(empty($name) || empty($password)) {
             $return_array = error_return("login", "fail1");
             echo return_json($return_array);
-            exit;
+            return;
         }
 
         $session = session();
@@ -106,7 +101,7 @@ class Member extends BaseController
         if(empty($search_result)) {
             $return_array = error_return("login", "fail2");
             echo return_json($return_array);
-            exit;
+            return;
         } else {
             $search_pw = $search_result[0]["password"];
 
@@ -114,7 +109,7 @@ class Member extends BaseController
             if(!password_verify($password, $search_pw)) {
                 $return_array = error_return("login", "fail3");
                 echo return_json($return_array);
-                exit;
+                return;
             } else {
                 $session_data = [
                     "name"      => $search_result[0]["name"],
@@ -128,7 +123,7 @@ class Member extends BaseController
                 $return_array["code"]       = "2000";
                 $return_array["msg"]        = "로그인에 성공 했습니다.";
                 echo return_json($return_array);
-                exit;
+                return;
             }
         }
     }
@@ -148,14 +143,14 @@ class Member extends BaseController
         // if(로그아웃 처리 로직 성공 결과에 따른 분기 처리)
         // $return_array = error_return("logout", "fail1");
         // echo return_json($return_array);
-        // exit;
+        // return;
         
         // else 로그아웃 로직 처리가 성공한 경우
         $return_array["result"]     = "success";
         $return_array["code"]       = "6000";
         $return_array["msg"]        = "로그아웃에 성공 했습니다.";
         echo return_json($return_array);
-        exit;
+        return;
     }
     
     /**
@@ -163,15 +158,13 @@ class Member extends BaseController
      */
     public function member_detail_info()
     {
-        helper('custom_helper');
-
         $name       = $this->request->getGet("name");
 
         // 조회를 위한 필수 파라메터 값이 비정상적인 경우 error return
         if(empty($name)) {
             $return_array = error_return("detail", "fail1");
             echo return_json($return_array);
-            exit;
+            return;
         }
 
         $memberModel = new Model\MemberModel();
@@ -186,11 +179,11 @@ class Member extends BaseController
         if(empty($search_result)) {
             $return_array = error_return("detail", "fail2");
             echo return_json($return_array);
-            exit;
+            return;
         } else {
             unset($search_result[0]["password"]); // password 정보 외 모든 정보 return
             echo return_json($search_result);
-            exit;
+            return;
         }
     }
 
@@ -199,8 +192,6 @@ class Member extends BaseController
      */
     public function member_order_info()
     {
-        helper('custom_helper');
-
         $name           = $this->request->getGet("name");
         $order_status   = $this->request->getGet("order_status");
 
@@ -208,7 +199,7 @@ class Member extends BaseController
         if(empty($name)) {
             $return_array = error_return("order", "fail1");
             echo return_json($return_array);
-            exit;
+            return;
         }
 
         $memberModel = new Model\MemberModel();
@@ -223,7 +214,7 @@ class Member extends BaseController
         if(empty($search_result1)) {
             $return_array = error_return("order", "fail2");
             echo return_json($return_array);
-            exit;
+            return;
         }
 
         $member_idx = $search_result1[0]["idx"];
@@ -245,10 +236,10 @@ class Member extends BaseController
         if(empty($search_result2)) {
             $return_array = error_return("order", "fail3");
             echo return_json($return_array);
-            exit;
+            return;
         } else {
             echo return_json($search_result2);
-            exit;
+            return;
         }
     }
 
@@ -257,8 +248,6 @@ class Member extends BaseController
      */
     public function member_list()
     {
-        helper('custom_helper');
-
         $page       = $this->request->getGet("page");
         $list_row   = $this->request->getGet("list_row");
         $search_txt = $this->request->getGet("search_txt");
@@ -280,10 +269,10 @@ class Member extends BaseController
         if(empty($search_result)) {
             $return_array = error_return("list", "fail1");
             echo return_json($return_array);
-            exit;
+            return;
         } else {
             echo return_json($search_result);
-            exit;
+            return;
         }
     }
 }
